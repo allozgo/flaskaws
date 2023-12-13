@@ -10,7 +10,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
-engine = create_engine("postgresql://fl0user:rUB0QLhDm2Gu@ep-steep-glitter-07795346.eu-central-1.aws.neon.fl0.io:5432/database")
+engine = create_engine("postgresql://fl0user:nrKkYRN9vze7@ep-flat-frost-86163861.ap-southeast-1.aws.neon.fl0.io:5432/database?sslmode=require")
 
 with open("pipe_model.pkl",  "rb") as f:
     loaded_model = pickle.load(f)
@@ -141,6 +141,5 @@ def predict_form():
     
     
     return render_template("form.html", prediction = "N/A")
-    
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
