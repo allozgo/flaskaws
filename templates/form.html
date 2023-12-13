@@ -39,33 +39,40 @@
     <br>
     <br>
     <div><STRONG>Prediction: {{prediction}}</STRONG></div>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#predictionForm").submit(function (event) {
-                event.preventDefault();
-                var formData = {
-                    color: $("input[name='color']").val(),
-                    flav: $("input[name='flav']").val(),
-                    alc: $("input[name='alc']").val(),
-                    prol: $("input[name='prol']").val()
-                };
+   <script>
+        function submitForm() {
+            var color = document.getElementsByName("color")[0].value;
+            var flav = document.getElementsByName("flav")[0].value;
+            var alc = document.getElementsByName("alc")[0].value;
+            var prol = document.getElementsByName("prol")[0].value;
 
-                $.ajax({
-                    type: "POST",
-                    url: "/predict",
-                    contentType: "application/json;charset=UTF-8",
-                    data: JSON.stringify(formData),
-                    success: function (data) {
-                        // Manejar la respuesta exitosa, por ejemplo, mostrar la predicción en la página
-                        console.log(data);
-                    },
-                    error: function (error) {
-                        // Manejar errores, por ejemplo, mostrar un mensaje de error
-                        console.log(error);
-                    }
-                });
-            });
-        });
+            var formData = {
+                color: color,
+                flav: flav,
+                alc: alc,
+                prol: prol
+            };
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/predict", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Manejar la respuesta exitosa, por ejemplo, mostrar la predicción en la página
+                    console.log(xhr.responseText);
+                } else {
+                    // Manejar errores, por ejemplo, mostrar un mensaje de error
+                    console.error(xhr.statusText);
+                }
+            };
+
+            xhr.onerror = function () {
+                // Manejar errores de red
+                console.error("Error de red al enviar la solicitud");
+            };
+
+            xhr.send(JSON.stringify(formData));
+        }
     </script>
 {% endblock %}
