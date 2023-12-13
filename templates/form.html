@@ -39,5 +39,33 @@
     <br>
     <br>
     <div><STRONG>Prediction: {{prediction}}</STRONG></div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#predictionForm").submit(function (event) {
+                event.preventDefault();
+                var formData = {
+                    color: $("input[name='color']").val(),
+                    flav: $("input[name='flav']").val(),
+                    alc: $("input[name='alc']").val(),
+                    prol: $("input[name='prol']").val()
+                };
 
+                $.ajax({
+                    type: "POST",
+                    url: "/predict",
+                    contentType: "application/json;charset=UTF-8",
+                    data: JSON.stringify(formData),
+                    success: function (data) {
+                        // Manejar la respuesta exitosa, por ejemplo, mostrar la predicción en la página
+                        console.log(data);
+                    },
+                    error: function (error) {
+                        // Manejar errores, por ejemplo, mostrar un mensaje de error
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}
